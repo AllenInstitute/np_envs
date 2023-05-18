@@ -1,0 +1,19 @@
+[tool.pdm]
+
+[project]
+name = "np_envs"
+version = "0.1.0"
+description = "Config and scripts for managing virtual envs for Mindscope Neuropixels projects."
+authors = [
+    {name = "bjhardcastle", email = "ben.hardcastle@alleninstitute.org"},
+]
+dependencies = [
+    "np-config>=0.4.20",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
