@@ -5,9 +5,13 @@ import pathlib
 import subprocess
 import sys
 
+import np_config 
+
 import np_envs.config as config
 
-class EnvPath(pathlib.WindowsPath if sys.platform == 'win32' else pathlib.PosixPath):
+ON_WINDOWS: bool = sys.platform == 'win32'
+
+class EnvPath(pathlib.WindowsPath if ON_WINDOWS else pathlib.PosixPath): # type: ignore
     """
     >>> env = EnvPath('np_pipeline_qc')
     """
@@ -22,6 +26,10 @@ class EnvPath(pathlib.WindowsPath if sys.platform == 'win32' else pathlib.PosixP
         return super().__repr__()
     
     @property
+    def python(self) -> pathlib.Path:
+        return self.venv_python if self.venv_python.exists() else self.conda_python
+    
+    @property
     def venv_root(self) -> pathlib.Path:
         return self / '.venv'
     
@@ -31,7 +39,7 @@ class EnvPath(pathlib.WindowsPath if sys.platform == 'win32' else pathlib.PosixP
     
     @property
     def venv_python(self) -> pathlib.Path:
-        return self.venv_root / 'Scripts' / 'python.exe' if sys.platform == 'win32' else self / 'bin' / 'python'
+        return self.venv_root / 'Scripts' / 'python.exe' if ON_WINDOWS else self / 'bin' / 'python'
     
     @property
     def venv_cache(self) -> pathlib.Path:
@@ -39,7 +47,7 @@ class EnvPath(pathlib.WindowsPath if sys.platform == 'win32' else pathlib.PosixP
     
     @property
     def conda_python(self) -> pathlib.Path:
-        return self.conda_root / 'python.exe' if sys.platform == 'win32' else self / 'bin' / 'python'
+        return self.conda_root / 'python.exe' if ON_WINDOWS else self / 'bin' / 'python'
     
     @property
     def requirements(self) -> pathlib.Path:
@@ -74,7 +82,7 @@ class EnvPath(pathlib.WindowsPath if sys.platform == 'win32' else pathlib.PosixP
             config.PIP_CONFIG.get(self.name),
             config.PIP_CONFIG['default'],
         )
-        pip_ini_config.set('global', 'cache-dir', str(self.venv_cache))
+        pip_ini_config.set('global', 'cache-dir', np_config.normalize(self.venv_cache))
         return pip_ini_config
     
     def add_pip_config(self):
