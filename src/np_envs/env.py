@@ -86,7 +86,7 @@ class PipManaged(EnvPython):
     @property
     def pip_cache(self) -> pathlib.Path:
         """Shared cache, across versions and across env types (not platforms)."""
-        return self.project_root.parent / 'pip_cache'
+        return config.ROOT / 'pip_cache'
     
     @property 
     def pip_ini_config(self) -> configparser.ConfigParser:
@@ -174,7 +174,7 @@ class EnvPath(pathlib.WindowsPath if ON_WINDOWS else pathlib.PosixPath): # type:
     """Python version to used for any envs, e.g. '3.8.5' or '3.8.*'."""
     
     def __new__(cls, env_name: str, **kwargs):
-        path = config.ROOT / env_name
+        path = config.PLATFORM_ROOT / env_name
         return super().__new__(cls, path, **kwargs)
     
     def __init__(self, *args, python_version: str | None = None, **kwargs):
