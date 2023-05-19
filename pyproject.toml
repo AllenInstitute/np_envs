@@ -9,6 +9,7 @@ authors = [
 ]
 dependencies = [
     "np-config>=0.4.20",
+    "np-logging>=0.5.1",
 ]
 requires-python = ">=3.8"
 readme = "README.md"
