@@ -68,7 +68,7 @@ class PipManaged(EnvPython):
     
     def create(self, *args, **kwargs) -> None:
         if self.python.exists():
-            logger.warning(f'{self} already exists at {self.root}: aborting creation.')
+            logger.warning(f'{self.name} {self.version} already exists at {self.root}: aborting creation.')
             return
         logger.info('Creating %s', self)
         self.run_create_cmd(*args, **kwargs)
