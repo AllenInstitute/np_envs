@@ -13,7 +13,9 @@ ZK_CONFIG_NODE = '/projects/np_envs'
 CONFIG = np_config.fetch(ZK_CONFIG_NODE)
 
 ROOT = pathlib.Path(CONFIG['root'])
+"""Root folder for all envs on all platforms."""""
 PLATFORM_ROOT = ROOT / ('win' if sys.platform == 'win32' else 'unix')
+"""OS-specific root folder for all envs on this platform."""
 REQUIREMENTS_TXT_ROOT = PLATFORM_ROOT / CONFIG['requirements_txt_dir_relative_to_root']
 """Where pip requirements are stored. Might not be possible to store in yaml
 for ZooKeeper, so we just use txt files"""

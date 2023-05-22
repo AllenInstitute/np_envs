@@ -86,7 +86,7 @@ class PipManaged(EnvPython):
     @property
     def pip_cache(self) -> pathlib.Path:
         """Shared cache, across versions and across env types (not platforms)."""
-        return config.ROOT / 'pip_cache'
+        return config.ROOT / '.pip-cache'
     
     @property 
     def pip_ini_config(self) -> configparser.ConfigParser:
