@@ -113,6 +113,8 @@ class PipManaged(EnvPython):
         return config.REQUIREMENTS_TXT_ROOT / f'{self.name}.requirements.txt'
         
     def update(self, requirements: pathlib.Path | None = None, **kwargs) -> None:
+        if not self.python.exists():
+            self.create()
         if requirements is None:
             requirements = self.requirements_txt
         if not requirements.exists():
